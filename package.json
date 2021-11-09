@@ -4,7 +4,9 @@
   "description": "Express API",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node src/server.js",
+    "nodemon": "nodemon src/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -12,5 +14,8 @@
     "crypto": "^1.0.1",
     "express": "^4.17.1",
     "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }

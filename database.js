@@ -8,7 +8,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         throw err
     } else {
         db.run(
-            `CREATE TABLE dentista (
+            `CREATE TABLE IF NOT EXISTS dentista (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nome text, 
                 email text UNIQUE, 
@@ -17,10 +17,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             (err) => {
                 if (err) {
                     console.log(err)
-                } else {
-                    var insert = 'INSERT INTO dentista (nome, email, senha) VALUES (?,?,?)'
-                    db.run(insert, ["Vitor", "vitor@email.com", "vitor123"])
-                }
+                } 
             });
     }
     if (err) {
@@ -28,7 +25,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         throw err
     } else {
         db.run(
-            `CREATE TABLE userAdm (
+            `CREATE TABLE IF NOT EXISTS userAdm (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nome text, 
                 email text UNIQUE, 
@@ -37,10 +34,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             (err) => {
                 if (err) {
                     console.log(err)
-                } else {
-                    var insert = 'INSERT INTO userAdm (nome, email, senha) VALUES (?,?,?)'
-                    db.run(insert, ["Vitor adm", "vitor@adm.com", "vitor123"])
-                }
+                } 
             });
     }
     if (err) {
@@ -48,7 +42,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         throw err
     } else {
         db.run(
-            `CREATE TABLE marcacao (
+            `CREATE TABLE IF NOT EXISTS marcacao (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 data text, 
                 idDentista INTEGER
@@ -56,9 +50,6 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             (err) => {
                 if (err) {
                     console.log(err)
-                } else {
-                    var insertMarcacao = 'INSERT INTO marcacao (data, idDentista) VALUES (?,?)'
-                    db.run(insertMarcacao, ['07/11/2021', 1])
                 }
             });
     }

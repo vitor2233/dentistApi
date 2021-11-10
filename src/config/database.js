@@ -17,7 +17,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             (err) => {
                 if (err) {
                     console.log(err)
-                } 
+                }
             });
     }
     if (err) {
@@ -25,7 +25,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         throw err
     } else {
         db.run(
-            `CREATE TABLE IF NOT EXISTS userAdm (
+            `CREATE TABLE IF NOT EXISTS administrador (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nome text, 
                 email text UNIQUE, 
@@ -34,7 +34,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             (err) => {
                 if (err) {
                     console.log(err)
-                } 
+                }
             });
     }
     if (err) {

@@ -32,9 +32,7 @@ module.exports = {
         var errors = []
         
         var { nome, email, senha } = req.body
-        var originalPassword = { nome, email, senha };
-        
-        senha  = await bcrypt.hash(String(originalPassword.senha), saltRounds);
+        senha  = await bcrypt.hash(String(req.body.password), saltRounds);
 
         
         
@@ -67,7 +65,8 @@ module.exports = {
         var { nome, email, senha } = req.body
         var { id } = req.params
 
-        senha = senha ? req.body.password : null
+        senha = await bcrypt.hash(String(senha ? req.body.password : null), saltRounds);
+        
 
         var result = await Dentista.update({ nome, email, senha, id })
 

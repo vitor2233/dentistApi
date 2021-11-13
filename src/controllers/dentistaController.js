@@ -1,5 +1,8 @@
 var db = require("../config/database");
 const Dentista = require("../models/Dentista");
+const bcrypt= require("bcrypt");
+const saltRounds = 10;
+
 
 
 module.exports = {
@@ -27,8 +30,19 @@ module.exports = {
 
     async post(req, res) {
         var errors = []
-
+        
         var { nome, email, senha } = req.body
+        var originalPassword = { nome, email, senha };
+        
+        senha  = await bcrypt.hash(String(originalPassword.senha), saltRounds);
+
+        
+        
+
+
+
+
+
 
         if (!senha) {
             errors.push("Senha é obrigatória");

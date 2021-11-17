@@ -1,5 +1,3 @@
-var db = require("../config/database");
-
 const Marcacao = require("../models/Marcacao")
 const Dentista = require("../models/Dentista")
 

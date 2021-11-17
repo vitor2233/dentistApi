@@ -1,8 +1,8 @@
-const Administrador = require("../models/Administrador");
+const Usuario = require("../models/Usuario");
 
 module.exports = {
     async list(req, res) {
-        var results = await Administrador.list()
+        var results = await Usuario.list()
 
         return res.json({
             "Resultado": "Sucesso",
@@ -11,7 +11,7 @@ module.exports = {
     },
 
     async show(req, res) {
-        var result = await Administrador.findAdministrator(req.params.id)
+        var result = await Usuario.findAdministrator(req.params.id)
 
         return res.json({
             "Resultado": "Sucesso",
@@ -38,9 +38,9 @@ module.exports = {
             return;
         }
 
-        var result = await Administrador.create({ nome, email, senha })
+        var result = await Usuario.create({ nome, email, senha })
 
-        return res.status(201).json(`Administrador ${result.nome} cadastrado com sucesso!`)
+        return res.status(201).json(`Usuário ${result.nome} cadastrado com sucesso!`)
     },
 
     async update(req, res) {
@@ -49,7 +49,7 @@ module.exports = {
 
         senha = senha ? req.body.password : null
 
-        var result = await Administrador.update({ nome, email, senha, id })
+        var result = await Usuario.update({ nome, email, senha, id })
 
         res.json({
             Resultado: "Sucesso",
@@ -60,7 +60,7 @@ module.exports = {
     },
 
     async delete(req, res) {
-        await Administrador.delete(req.params.id)
+        await Usuario.delete(req.params.id)
 
         return res.json({
             "Resultado": "Excluido"

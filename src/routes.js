@@ -4,7 +4,10 @@ const router = express.Router()
 
 const dentistaController = require("./controllers/dentistaController")
 const marcacoesController = require("./controllers/marcacoesController")
-const administradorController = require("./controllers/administradorController")
+const usuarioController = require("./controllers/usuarioController")
+const consultorioController = require("./controllers/consultorioController")
+const dentistaHasConsultorioController = require("./controllers/dentistaHasConsultorioController")
+const servicoController = require("./controllers/servicoController")
 
 
 // Dentista
@@ -15,18 +18,37 @@ router.post("/api/dentista", dentistaController.post)
 router.patch("/api/dentista/:id", dentistaController.update)
 router.delete("/api/dentista/:id", dentistaController.delete)
 
-//Marcações
+//Consultório
+router.get("/api/consultorio", consultorioController.list)
+router.get("/api/consultorio/:id", consultorioController.show)
+router.post("/api/consultorio", consultorioController.post)
+router.patch("/api/consultorio/:id", consultorioController.update)
+router.delete("/api/consultorio/:id", consultorioController.delete)
 
+//Serviço
+router.get("/api/servico", servicoController.list)
+router.get("/api/servico/:id", servicoController.show)
+router.post("/api/servico", servicoController.post)
+router.patch("/api/servico/:id", servicoController.update)
+router.delete("/api/servico/:id", servicoController.delete)
+
+//Dentista Consultorio
+router.get("/api/dentistaConsultorio", dentistaHasConsultorioController.list)
+router.post("/api/dentistaConsultorio", dentistaHasConsultorioController.post)
+router.patch("/api/dentistaConsultorio/:id", dentistaHasConsultorioController.update)
+router.delete("/api/dentistaConsultorio/:id", dentistaHasConsultorioController.delete)
+
+//Marcações
 router.get("/api/marcacoes", marcacoesController.list)
 router.post("/api/marcacao", marcacoesController.post)
 router.patch("/api/marcacao/:id", marcacoesController.update)
 router.delete("/api/marcacao/:id", marcacoesController.delete)
 
-// Administrador
-router.get("/api/administrador", administradorController.list)
-router.get("/api/administrador/:id", administradorController.show)
-router.post("/api/administrador", administradorController.post)
-router.patch("/api/administrador/:id", administradorController.update)
-router.delete("/api/administrador/:id", administradorController.delete)
+// Usuário
+router.get("/api/usuario", usuarioController.list)
+router.get("/api/usuario/:id", usuarioController.show)
+router.post("/api/usuario", usuarioController.post)
+router.patch("/api/usuario/:id", usuarioController.update)
+router.delete("/api/usuario/:id", usuarioController.delete)
 
 module.exports = router

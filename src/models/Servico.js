@@ -2,8 +2,8 @@ var db = require("../config/database");
 
 module.exports = {
     async create(data) {
-        var sql = 'INSERT INTO administrador (nome, email, senha) VALUES (?,?,?)'
-        var params = [data.nome, data.email, data.senha]
+        var sql = 'INSERT INTO servico (tipoServico, preco, idDentista) VALUES (?,?,?)'
+        var params = [data.tipoServico, data.preco, data.idDentista]
 
 
         return new Promise((resolve, reject) => {
@@ -18,7 +18,7 @@ module.exports = {
     },
 
     async list() {
-        var sql = "select * from administrador"
+        var sql = "select * from servico"
         var params = []
 
         return new Promise((resolve, reject) => {
@@ -31,8 +31,8 @@ module.exports = {
         })
     },
 
-    async findAdministrator(id) {
-        var sql = "SELECT * FROM administrador WHERE id = ?"
+    async findService(id) {
+        var sql = "SELECT * FROM servico WHERE id = ?"
         var params = [id]
 
         return new Promise((resolve, reject) => {
@@ -46,13 +46,15 @@ module.exports = {
     },
 
     async update(data) {
-        var sql = `UPDATE administrador set 
-    nome = COALESCE(?,nome), 
-    email = COALESCE(?,email), 
-    senha = COALESCE(?,senha) 
+        var sql = `UPDATE servico set 
+    tipoServico = COALESCE(?,tipoServico), 
+    preco = COALESCE(?,preco), 
+    idDentista = COALESCE(?,idDentista) 
     WHERE id = ?
     `
-        var params = [data.nome, data.email, data.senha, data.id]
+
+        console.log(data)
+        var params = [data.tipoServico, data.preco, data.idDentista, data.id]
 
         return new Promise((resolve, reject) => {
             db.run(sql, params, function (err, result) {
@@ -65,7 +67,7 @@ module.exports = {
     },
 
     async delete(id) {
-        var sql = 'DELETE FROM administrador WHERE id = ?'
+        var sql = 'DELETE FROM servico WHERE id = ?'
         var params = [id]
 
         return db.run(sql, params, function (err, result) {

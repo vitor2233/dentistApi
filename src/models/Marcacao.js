@@ -2,8 +2,8 @@ var db = require("../config/database");
 
 module.exports = {
   async create(data) {
-    var sql = 'INSERT INTO marcacao (data, idDentista) VALUES (?,?)'
-    var params = [data.data, data.idDentista]
+    var sql = 'INSERT INTO marcacao (data, idDentista, idUsuario) VALUES (?,?,?)'
+    var params = [data.data, data.idDentista, data.idUsuario]
 
     return new Promise((resolve, reject) => {
       db.run(sql, params, function (err, result) {
@@ -32,10 +32,11 @@ module.exports = {
   async update(data) {
     var sql = `UPDATE marcacao set 
     data = COALESCE(?,data), 
-    idDentista = COALESCE(?,idDentista)
+    idDentista = COALESCE(?,idDentista),
+    idUsuario = COALESCE(?,idUsuario)
     WHERE id = ?
     `
-    var params = [data.data, data.idDentista, data.id]
+    var params = [data.data, data.idDentista, data.idUsuario, data.id]
 
     return new Promise((resolve, reject) => {
       db.run(sql, params, function (err, result) {

@@ -1,4 +1,6 @@
 const Usuario = require("../models/Usuario");
+const bcrypt= require("bcrypt");
+const saltRounds = 10;
 
 module.exports = {
     async list(req, res) {
@@ -23,6 +25,7 @@ module.exports = {
         var errors = []
 
         var { nome, email, senha } = req.body
+        senha = await bcrypt.hash(String(senha ? req.body.password : null), saltRounds);
 
         if (!senha) {
             errors.push("Senha é obrigatória");
@@ -47,7 +50,7 @@ module.exports = {
         var { nome, email, senha, isAdm } = req.body
         var { id } = req.params
 
-        senha = senha ? req.body.password : null
+        senha = await bcrypt.hash(String(senha ? req.body.password : null), saltRounds);
 
         var result = await Usuario.update({ nome, email, senha, isAdm, id })
 

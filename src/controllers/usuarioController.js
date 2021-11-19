@@ -72,12 +72,12 @@ module.exports = {
     },
 
     async update(req, res) {
-        var { nome, email, senha } = req.body
+        var { nome, email, senha, isAdm } = req.body
         var { id } = req.params
 
         senha = senha ? req.body.password : null
 
-        var result = await Usuario.update({ nome, email, senha, id })
+        var result = await Usuario.update({ nome, email, senha, isAdm, id })
 
         res.json({
             Resultado: "Sucesso",

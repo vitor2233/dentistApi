@@ -45,6 +45,20 @@ module.exports = {
         })
     },
 
+    async findLogin(email, pass) {
+        var sql = "SELECT * FROM usuario WHERE email = ? AND senha = ?";
+        var params = [email, pass]
+
+        return new Promise((resolve, reject) => {
+            db.get(sql, params, (err, row) => {
+                if (err) {
+                    throw new Error(err)
+                }
+                resolve(row)
+            })
+        })
+    },
+
     async update(data) {
         var sql = `UPDATE usuario set 
     nome = COALESCE(?,nome), 

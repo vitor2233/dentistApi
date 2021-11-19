@@ -43,7 +43,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                     nome text, 
                     email text UNIQUE, 
                     senha text,
-                    isAdm BOOLEAN
+                    isAdm INTEGER
                 )`,
             (err) => {
                 if (err) {

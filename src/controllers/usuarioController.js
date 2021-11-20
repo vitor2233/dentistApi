@@ -1,5 +1,7 @@
 const Usuario = require("../models/Usuario");
 const jwt = require('jsonwebtoken');
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
 module.exports = {
     async list(req, res) {
@@ -36,14 +38,44 @@ module.exports = {
             return;
         }
 
-        result = await Usuario.findLogin(email, senha);
-        if (!result) {
+        resultFromDb = await Usuario.findLogin(email);
+
+
+        if (!resultFromDb) {
             return res.status(400).json({ "Erro": "Email ou senha inválidos" });
         } else {
-            var token = jwt.sign({ user: result.name, isAdm: result.isAdm }, process.env.SECRET, {
-                expiresIn: 3000
+
+            bcrypt.compare(senha, resultFromDb.senha, function (err, result) {
+                console.log(resultFromDb)
+                console.log(senha);
+                console.log(resultFromDb.senha)
+                if (err) {
+                    // handle error
+                }
+                if (result) {
+                    console.log(result)
+                    var token = jwt.sign({ user: result.name, isAdm: result.isAdm }, process.env.SECRET, {
+                        expiresIn: 3000
+                    });
+                    res.status(200).send({ auth: true, token: token });
+                }
+                else {
+                    // response is OutgoingMessage object that server response http request
+                    return res.json({ success: false, message: 'passwords do not match' });
+                }
+
             });
-            res.status(200).send({ auth: true, token: token });
+            // console.log(isMatch)
+            // if(!isMatch){
+            //     console.log("deu ruim")
+            // }
+            // else{
+            //     var token = jwt.sign({ user: result.name, isAdm: result.isAdm }, process.env.SECRET, {
+            //         expiresIn: 3000
+            //     });
+            //     res.status(200).send({ auth: true, token: token });
+            // }
+
         }
     },
 
@@ -51,6 +83,7 @@ module.exports = {
         var errors = []
 
         var { nome, email, senha, isAdm } = req.body
+        senha = await bcrypt.hash(String(senha ? req.body.password : null), saltRounds);
 
         if (!senha) {
             errors.push("Senha é obrigatória");
@@ -75,7 +108,7 @@ module.exports = {
         var { nome, email, senha, isAdm } = req.body
         var { id } = req.params
 
-        senha = senha ? req.body.password : null
+        senha = await bcrypt.hash(String(senha ? req.body.password : null), saltRounds);
 
         var result = await Usuario.update({ nome, email, senha, isAdm, id })
 

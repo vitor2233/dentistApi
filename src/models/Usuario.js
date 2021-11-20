@@ -45,9 +45,9 @@ module.exports = {
         })
     },
 
-    async findLogin(email, pass) {
-        var sql = "SELECT * FROM usuario WHERE email = ? AND senha = ?";
-        var params = [email, pass]
+    async findLogin(email) {
+        var sql = "SELECT * FROM usuario WHERE email = ?";
+        var params = [email]
 
         return new Promise((resolve, reject) => {
             db.get(sql, params, (err, row) => {

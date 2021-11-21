@@ -1,7 +1,7 @@
 const Usuario = require("../models/Usuario");
 const jwt = require('jsonwebtoken');
-const bcrypt = require("bcrypt");
-const saltRounds = 10;
+const bcrypt = require("bcryptjs");
+const saltRounds = bcrypt.genSaltSync(10);
 
 module.exports = {
     async list(req, res) {
@@ -26,6 +26,7 @@ module.exports = {
         var errors = []
 
         var { email, senha } = req.body;
+       
 
         if (!senha) {
             errors.push("Senha é obrigatória");
@@ -46,11 +47,10 @@ module.exports = {
         } else {
 
             bcrypt.compare(senha, resultFromDb.senha, function (err, result) {
-                console.log(resultFromDb)
-                console.log(senha);
-                console.log(resultFromDb.senha)
+                
                 if (err) {
                     // handle error
+                    console.log(err)
                 }
                 if (result) {
                     console.log(result)
@@ -83,7 +83,7 @@ module.exports = {
         var errors = []
 
         var { nome, email, senha, isAdm } = req.body
-        senha = await bcrypt.hash(String(senha ? req.body.password : null), saltRounds);
+        senha = await bcrypt.hash(req.body.senha, saltRounds);
 
         if (!senha) {
             errors.push("Senha é obrigatória");
@@ -108,7 +108,7 @@ module.exports = {
         var { nome, email, senha, isAdm } = req.body
         var { id } = req.params
 
-        senha = await bcrypt.hash(String(senha ? req.body.password : null), saltRounds);
+        senha = await bcrypt.hash(req.body.senha, saltRounds);
 
         var result = await Usuario.update({ nome, email, senha, isAdm, id })
 

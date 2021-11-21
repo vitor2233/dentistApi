@@ -1,6 +1,6 @@
 var db = require("../config/database");
 const Dentista = require("../models/Dentista");
-const bcrypt= require("bcrypt");
+const bcrypt= require("bcryptjs");
 const saltRounds = 10;
 
 
@@ -32,7 +32,7 @@ module.exports = {
         var errors = []
         
         var { nome, email, senha } = req.body
-        senha  = await bcrypt.hash(String(req.body.password), saltRounds);
+        senha  = await bcrypt.hash(req.body.senha, saltRounds);
 
         
         
@@ -65,7 +65,7 @@ module.exports = {
         var { nome, email, senha } = req.body
         var { id } = req.params
 
-        senha = await bcrypt.hash(String(senha ? req.body.password : null), saltRounds);
+        senha = await bcrypt.hash(req.body.senha, saltRounds);
         
 
         var result = await Dentista.update({ nome, email, senha, id })

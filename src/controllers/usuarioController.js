@@ -54,11 +54,7 @@ module.exports = {
                     console.log(err)
                 }
                 if (result) {
-<<<<<<< HEAD
                     var token = jwt.sign({ user: resultFromDb }, process.env.SECRET, {
-=======
-                    var token = jwt.sign({ user: result.name, isAdm: result.isAdm }, process.env.SECRET, {
->>>>>>> 26a4be94bdfbd777895daab2617bf341b89a66cb
                         expiresIn: 3000
                     });
                     res.status(200).send({ auth: true, token: token });

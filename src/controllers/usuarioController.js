@@ -26,7 +26,7 @@ module.exports = {
         var errors = []
 
         var { email, senha } = req.body;
-       
+
 
         if (!senha) {
             errors.push("Senha é obrigatória");
@@ -47,14 +47,13 @@ module.exports = {
         } else {
 
             bcrypt.compare(senha, resultFromDb.senha, function (err, result) {
-                
+
                 if (err) {
                     // handle error
                     console.log(err)
                 }
                 if (result) {
-                    console.log(result)
-                    var token = jwt.sign({ user: result.name, isAdm: result.isAdm }, process.env.SECRET, {
+                    var token = jwt.sign({ user: resultFromDb }, process.env.SECRET, {
                         expiresIn: 3000
                     });
                     res.status(200).send({ auth: true, token: token });

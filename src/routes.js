@@ -1,6 +1,7 @@
 const express = require("express")
 const jwt = require('jsonwebtoken');
 const router = express.Router()
+var { verifyIfIsNormalUser, verifyIfUserIsAdm, verifyDentist } = require("./middlewares/middleware");
 
 const dentistaController = require("./controllers/dentistaController")
 const marcacoesController = require("./controllers/marcacoesController")
@@ -8,27 +9,6 @@ const usuarioController = require("./controllers/usuarioController")
 const consultorioController = require("./controllers/consultorioController")
 const dentistaHasConsultorioController = require("./controllers/dentistaHasConsultorioController")
 const servicoController = require("./controllers/servicoController")
-
-function verifyJWT(req, res, next) {
-    var authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]
-    if (token == null) return res.sendStatus(401);
-    if (!token) return res.status(401).send({ auth: false, message: 'Sem token.' });
-
-    jwt.verify(token, process.env.SECRET, function (err, decoded) {
-        if (err) {
-            console.log(err);
-            return res.status(500).send({ auth: false, message: 'Erro ao verificar token.' });
-        }
-
-        if (decoded) {
-            next();
-        } else {
-            return res.status(401).send({ auth: false, message: 'Sem autorização.' });
-        }
-
-    });
-}
 
 // Dentista
 router.get("/", dentistaController.index)
@@ -66,7 +46,7 @@ router.patch("/api/marcacao/:id", marcacoesController.update)
 router.delete("/api/marcacao/:id", marcacoesController.delete)
 
 // Usuário
-router.get("/api/usuario", verifyJWT, usuarioController.list)
+router.get("/api/usuario", verifyIfUserIsAdm, usuarioController.list)
 router.get("/api/usuario/:id", usuarioController.show)
 router.post("/api/usuario/login", usuarioController.login)
 router.post("/api/usuario", usuarioController.post)

@@ -34,14 +34,6 @@ module.exports = {
         var { nome, email, senha } = req.body
         senha  = await bcrypt.hash(req.body.senha, saltRounds);
 
-        
-        
-
-
-
-
-
-
         if (!senha) {
             errors.push("Senha é obrigatória");
         }
@@ -67,7 +59,6 @@ module.exports = {
 
         senha = await bcrypt.hash(req.body.senha, saltRounds);
         
-
         var result = await Dentista.update({ nome, email, senha, id })
 
         res.json({

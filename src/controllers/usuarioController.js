@@ -3,8 +3,10 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require("bcryptjs");
 const saltRounds = bcrypt.genSaltSync(10);
 
+
 module.exports = {
     async list(req, res) {
+
         var results = await Usuario.list()
 
         return res.json({
@@ -41,9 +43,8 @@ module.exports = {
 
         resultFromDb = await Usuario.findLogin(email);
 
-
         if (!resultFromDb) {
-            return res.status(400).json({ "Erro": "Email ou senha inválidos" });
+            return res.status(400).json({ success: false, erro: "Email ou senha inválidos" });
         } else {
 
             bcrypt.compare(senha, resultFromDb.senha, function (err, result) {
@@ -53,7 +54,6 @@ module.exports = {
                     console.log(err)
                 }
                 if (result) {
-                    console.log(result)
                     var token = jwt.sign({ user: result.name, isAdm: result.isAdm }, process.env.SECRET, {
                         expiresIn: 3000
                     });
@@ -61,11 +61,11 @@ module.exports = {
                 }
                 else {
                     // response is OutgoingMessage object that server response http request
-                    return res.json({ success: false, message: 'passwords do not match' });
+                    return res.status(400).json({ success: false, erro: "passwords do not match" });
                 }
 
             });
-            // console.log(isMatch)
+            /* // console.log(isMatch)
             // if(!isMatch){
             //     console.log("deu ruim")
             // }
@@ -74,7 +74,7 @@ module.exports = {
             //         expiresIn: 3000
             //     });
             //     res.status(200).send({ auth: true, token: token });
-            // }
+            // } */
 
         }
     },
@@ -101,7 +101,7 @@ module.exports = {
 
         var result = await Usuario.create({ nome, email, senha, isAdm })
 
-        return res.status(201).json(`Usuário ${result.nome} cadastrado com sucesso!`)
+        return res.status(201).json(`Usuário ${result.id}, ${result.nome} cadastrado com sucesso!`)
     },
 
     async update(req, res) {

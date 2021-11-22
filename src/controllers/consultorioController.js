@@ -23,7 +23,7 @@ module.exports = {
     async post(req, res) {
         var errors = []
 
-        var { nome, estado, cidade, bairro, rua, numero, complemento, horaInicio, horaFim } = req.body
+        var { nome, estado, cidade, bairro, rua, numero, complemento, horaInicio, horaFim, idDentista } = req.body
 
         if (!nome) {
             errors.push("Nome é obrigatório");
@@ -51,6 +51,9 @@ module.exports = {
         }
         if (!horaFim) {
             errors.push("Hora fim é obrigatório");
+        }
+        if (!idDentista) {
+            errors.push("ID de dentista é obrigatório");
         }
         if (errors.length) {
             res.status(400).json({ "Erro": errors.join(",") });

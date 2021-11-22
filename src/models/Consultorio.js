@@ -2,8 +2,8 @@ var db = require("../config/database");
 
 module.exports = {
     async create(data) {
-        var sql = 'INSERT INTO consultorio (estado, cidade, bairro, rua, numero, complemento, horaInicio, horaFim) VALUES (?,?,?,?,?,?,?,?)'
-        var params = [data.estado, data.cidade, data.bairro, data.rua, data.numero, data.complemento, data.horaInicio, data.horaFim]
+        var sql = 'INSERT INTO consultorio (nome, estado, cidade, bairro, rua, numero, complemento, horaInicio, horaFim) VALUES (?,?,?,?,?,?,?,?,?)'
+        var params = [data.nome, data.estado, data.cidade, data.bairro, data.rua, data.numero, data.complemento, data.horaInicio, data.horaFim]
 
 
         return new Promise((resolve, reject) => {

@@ -45,6 +45,20 @@ module.exports = {
         })
     },
 
+    async findUser(id) {
+        var sql = "SELECT * FROM usuario WHERE id = ?"
+        var params = [id]
+
+        return new Promise((resolve, reject) => {
+            db.get(sql, params, (err, row) => {
+                if (err) {
+                    throw new Error(err)
+                }
+                resolve(row)
+            })
+        })
+    },
+
     async findLogin(email) {
         var sql = "SELECT * FROM usuario WHERE email = ?";
         var params = [email]

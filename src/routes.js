@@ -21,7 +21,7 @@ function verifyJWT(req, res, next) {
             return res.status(500).send({ auth: false, message: 'Erro ao verificar token.' });
         }
 
-        if (decoded.isAdm == 1) {
+        if (decoded) {
             next();
         } else {
             return res.status(401).send({ auth: false, message: 'Sem autorização.' });
@@ -60,6 +60,7 @@ router.delete("/api/dentistaConsultorio/:id", dentistaHasConsultorioController.d
 
 //Marcações
 router.get("/api/marcacoes", marcacoesController.list)
+router.get("/api/marcacao/:id", marcacoesController.show)
 router.post("/api/marcacao", marcacoesController.post)
 router.patch("/api/marcacao/:id", marcacoesController.update)
 router.delete("/api/marcacao/:id", marcacoesController.delete)

@@ -1,5 +1,6 @@
 const Marcacao = require("../models/Marcacao")
 const Dentista = require("../models/Dentista")
+const Usuario = require("../models/Usuario")
 
 module.exports = {
     async list(req, res) {
@@ -14,7 +15,7 @@ module.exports = {
     async post(req, res) {
         var errors = []
 
-        var { data, idDentista } = req.body
+        var { data, idDentista, idUsuario } = req.body
 
         if (!req.body.data) {
             errors.push("Data é obrigatório");
@@ -22,19 +23,28 @@ module.exports = {
         if (!req.body.idDentista) {
             errors.push("Dentista é obrigatório");
         }
+        if (!req.body.idUsuario) {
+            errors.push("Usuário é obrigatório");
+        }
 
         if (errors.length) {
             res.status(400).json({ "Erro": errors.join(", ") });
             return;
         }
 
-        var result = await Dentista.findDentist(idDentista)
+        var result = await Usuario.findUser(idUsuario)
+
+        if (!result) {
+            return res.status(400).json({ "Erro": "Usuário inexistente" });
+        }
+
+        result = await Dentista.findDentist(idDentista)
 
         if (!result) {
             return res.status(400).json({ "Erro": "Dentista inexistente" });
         }
         else {
-            result = await Marcacao.create({ data, idDentista })
+            result = await Marcacao.create({ data, idDentista, idUsuario })
 
             return res.json({
                 "message": "successo",
@@ -43,11 +53,22 @@ module.exports = {
         }
     },
 
+    async show(req, res) {
+        var result = await Marcacao.findById(req.params.id)
+
+        return res.json({
+            "Resultado": "Sucesso",
+            "data": result
+        })
+    },
+
     async update(req, res) {
-        var { data, idDentista } = req.body
+        var { data } = req.body
         var { id } = req.params
 
-        var result = await Marcacao.update({ data, idDentista, id })
+        console.log(data)
+
+        var result = await Marcacao.update({ data, id })
 
         return res.json({
             Resultado: "Sucesso",

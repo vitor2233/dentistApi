@@ -23,7 +23,7 @@ module.exports = {
     async post(req, res) {
         var errors = []
 
-        var { nome, estado, cidade, bairro, rua, numero, complemento, horaInicio, horaFim, idDentista } = req.body
+        var { nome, estado, cidade, bairro, rua, numero, complemento, horaInicio, horaFim } = req.body
 
         if (!nome) {
             errors.push("Nome é obrigatório");
@@ -60,11 +60,11 @@ module.exports = {
             return;
         }
 
-        var result = await Dentista.findDentist(idDentista)
+        /* var result = await Dentista.findDentist(idDentista)
 
         if (!result) {
             return res.status(400).json({ "Erro": "Dentista inexistente" });
-        }
+        } */
 
         var result = await Consultorio.create({ nome, estado, cidade, bairro, rua, numero, complemento, horaInicio, horaFim })
 

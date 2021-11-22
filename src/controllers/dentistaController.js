@@ -50,7 +50,10 @@ module.exports = {
 
         var result = await Dentista.create({ nome, email, senha })
 
-        return res.status(201).json(`Dentista ${result.nome} cadastrado com sucesso!`)
+        return res.status(201).json({
+            message: `Dentista ${result.nome} cadastrado com sucesso!`,
+            data: result
+        })
     },
 
     async update(req, res) {

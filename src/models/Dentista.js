@@ -11,6 +11,7 @@ module.exports = {
         if (err) {
           throw new Error(err)
         }
+        data.id = this.lastID
         resolve(data)
       });
     })

@@ -64,7 +64,7 @@ module.exports = {
     },
 
     async delete(req, res) {
-        await Administrador.delete(req.params.id)
+        await Servico.delete(req.params.id)
 
         return res.json({
             "Resultado": "Excluido"

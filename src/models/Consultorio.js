@@ -2,8 +2,8 @@ var db = require("../config/database");
 
 module.exports = {
     async create(data) {
-        var sql = 'INSERT INTO consultorio (estado, cidade, bairro, rua, numero, complemento, horaInicio, horaFim) VALUES (?,?,?,?,?,?,?,?)'
-        var params = [data.estado, data.cidade, data.bairro, data.rua, data.numero, data.complemento, data.horaInicio, data.horaFim]
+        var sql = 'INSERT INTO consultorio (nome, estado, cidade, bairro, rua, numero, complemento, horaInicio, horaFim) VALUES (?,?,?,?,?,?,?,?,?)'
+        var params = [data.nome, data.estado, data.cidade, data.bairro, data.rua, data.numero, data.complemento, data.horaInicio, data.horaFim]
 
 
         return new Promise((resolve, reject) => {
@@ -44,8 +44,10 @@ module.exports = {
             })
         })
     },
+    
     async update(data) {
         var sql = `UPDATE consultorio set 
+        nome = COALESCE(?,nome), 
         estado = COALESCE(?,estado), 
         cidade = COALESCE(?,cidade), 
         bairro = COALESCE(?,bairro),
@@ -53,10 +55,10 @@ module.exports = {
         numero = COALESCE(?,numero),
         complemento = COALESCE(?,complemento),
         horaInicio = COALESCE(?,horaInicio),
-        horaFim = COALESCE(?,horaFim),
+        horaFim = COALESCE(?,horaFim)
         WHERE id = ?
         `
-        var params = [data.estado, data.cidade, data.bairro, data.rua, data.numero, data.complemento, data.horaInicio, data.horaFim, data.id]
+        var params = [data.nome, data.estado, data.cidade, data.bairro, data.rua, data.numero, data.complemento, data.horaInicio, data.horaFim, data.id]
 
         return new Promise((resolve, reject) => {
             db.run(sql, params, function (err, result) {

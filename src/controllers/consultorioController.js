@@ -52,16 +52,19 @@ module.exports = {
         if (!horaFim) {
             errors.push("Hora fim é obrigatório");
         }
+        if (!idDentista) {
+            errors.push("ID de dentista é obrigatório");
+        }
         if (errors.length) {
             res.status(400).json({ "Erro": errors.join(",") });
             return;
         }
 
-        var result = await Dentista.findDentist(idDentista)
+        /* var result = await Dentista.findDentist(idDentista)
 
         if (!result) {
             return res.status(400).json({ "Erro": "Dentista inexistente" });
-        }
+        } */
 
         var result = await Consultorio.create({ nome, estado, cidade, bairro, rua, numero, complemento, horaInicio, horaFim })
 

@@ -10,7 +10,7 @@ module.exports = {
         if (err) {
           throw new Error(err)
         }
-        resolve(data)
+        resolve(result)
       });
     })
   },
@@ -29,14 +29,26 @@ module.exports = {
     })
   },
 
+  async findById(id) {
+    var sql = 'SELECT * FROM marcacao WHERE id = ?'
+    var params = [id]
+
+    return new Promise((resolve, reject) => {
+      db.get(sql, params, (err, row) => {
+        if (err) {
+          throw new Error(err)
+        }
+        resolve(row)
+      })
+    })
+  },
+
   async update(data) {
     var sql = `UPDATE marcacao set 
-    data = COALESCE(?,data), 
-    idDentista = COALESCE(?,idDentista),
-    idUsuario = COALESCE(?,idUsuario)
+    data = COALESCE(?,data)
     WHERE id = ?
     `
-    var params = [data.data, data.idDentista, data.idUsuario, data.id]
+    var params = [data.data, data.id]
 
     return new Promise((resolve, reject) => {
       db.run(sql, params, function (err, result) {

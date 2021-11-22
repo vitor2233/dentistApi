@@ -1,7 +1,8 @@
 var express = require("express");
 var app = express();
 const router = require("./routes");
-require("dotenv-safe").config();
+var dotenv = require("dotenv-safe")
+dotenv.config()
 
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));

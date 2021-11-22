@@ -34,14 +34,6 @@ module.exports = {
         var { nome, email, senha } = req.body
         senha  = await bcrypt.hash(req.body.senha, saltRounds);
 
-        
-        
-
-
-
-
-
-
         if (!senha) {
             errors.push("Senha é obrigatória");
         }
@@ -58,7 +50,10 @@ module.exports = {
 
         var result = await Dentista.create({ nome, email, senha })
 
-        return res.status(201).json(`Dentista ${result.nome} cadastrado com sucesso!`)
+        return res.status(201).json({
+            message: `Dentista ${result.nome} cadastrado com sucesso!`,
+            data: result
+        })
     },
 
     async update(req, res) {
@@ -67,7 +62,6 @@ module.exports = {
 
         senha = await bcrypt.hash(req.body.senha, saltRounds);
         
-
         var result = await Dentista.update({ nome, email, senha, id })
 
         res.json({

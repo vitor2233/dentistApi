@@ -11,6 +11,7 @@ module.exports = {
         if (err) {
           throw new Error(err)
         }
+        data.id = this.lastID
         resolve(data)
       });
     })
@@ -53,7 +54,6 @@ module.exports = {
     WHERE id = ?
     `
 
-    console.log(data)
     var params = [data.nome, data.email, data.senha, data.id]
 
     return new Promise((resolve, reject) => {

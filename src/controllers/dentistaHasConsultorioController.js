@@ -7,8 +7,8 @@ module.exports = {
         const results = await DentistaHasConsultorio.list()
 
         return res.json({
-            "message": "success",
-            "data": results
+            success: true,
+            data: results
         })
     },
 
@@ -25,14 +25,14 @@ module.exports = {
         }
 
         if (errors.length) {
-            res.status(400).json({ "Erro": errors.join(", ") });
+            res.status(400).json({ success: false, erro: errors.join(", ") });
             return;
         }
 
         var resultConsultorio = await Consultorio.findConsultorio(idConsultorio)
 
         if (!resultConsultorio) {
-            return res.status(400).json({ "Erro": "Consultório inexistente" });
+            return res.status(400).json({ success: false, erro: "Consultório inexistente" });
         }
 
         var resultDentist = await Dentista.findDentist(idDentista)
@@ -44,8 +44,8 @@ module.exports = {
             result = await DentistaHasConsultorio.create({ idDentista, idConsultorio })
 
             return res.json({
-                "message": "successo",
-                "data": result
+                success: true,
+                data: result
             })
         }
     },
@@ -57,7 +57,7 @@ module.exports = {
         var result = await DentistaHasConsultorio.update({ idDentista, idConsultorio, id })
 
         return res.json({
-            Resultado: "Sucesso",
+            success: true,
             data: result
         })
     },
@@ -66,7 +66,8 @@ module.exports = {
         await DentistaHasConsultorio.delete(req.params.id)
 
         return res.json({
-            "Resultado": "Removido"
+            success: true,
+            message: "Removido"
         })
     }
 }

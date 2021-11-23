@@ -1,6 +1,6 @@
-var db = require("../config/database");
 const Dentista = require("../models/Dentista");
-const bcrypt= require("bcryptjs");
+const jwt = require('jsonwebtoken');
+const bcrypt = require("bcryptjs");
 const saltRounds = 10;
 
 
@@ -14,8 +14,8 @@ module.exports = {
         var results = await Dentista.list()
 
         return res.json({
-            "Resultado": "Sucesso",
-            "data": results
+            success: true,
+            data: results
         })
     },
 
@@ -23,16 +23,60 @@ module.exports = {
         var result = await Dentista.findDentist(req.params.id)
 
         return res.json({
-            "Resultado": "Sucesso",
-            "data": result
+            success: true,
+            data: result
         })
+    },
+
+    async login(req, res) {
+        var errors = []
+
+        var { email, senha } = req.body;
+
+
+        if (!senha) {
+            errors.push("Senha é obrigatória");
+        }
+        if (!email) {
+            errors.push("Email é obrigatório");
+        }
+        if (errors.length) {
+            res.status(400).json({ success: false, erro: errors.join(",") });
+            return;
+        }
+
+        resultFromDb = await Dentista.findLogin(email);
+
+        if (!resultFromDb) {
+            return res.status(400).json({ success: false, erro: "Email ou senha inválidos" });
+        } else {
+
+            bcrypt.compare(senha, resultFromDb.senha, function (err, result) {
+
+                if (err) {
+                    // handle error
+                    console.log(err)
+                }
+                if (result) {
+                    resultFromDb.senha = null;
+                    var token = jwt.sign({ dentist: resultFromDb }, process.env.SECRET, {
+                        expiresIn: 3000
+                    });
+                    res.status(200).send({ auth: true, token: token });
+                } else {
+                    return res.status(400).json({ success: false, erro: "Email ou senha inválidos" });
+                }
+
+            });
+
+        }
     },
 
     async post(req, res) {
         var errors = []
-        
+
         var { nome, email, senha } = req.body
-        senha  = await bcrypt.hash(req.body.senha, saltRounds);
+
 
         if (!senha) {
             errors.push("Senha é obrigatória");
@@ -48,11 +92,13 @@ module.exports = {
             return;
         }
 
+        senha = await bcrypt.hash(req.body.senha, saltRounds);
+
         var result = await Dentista.create({ nome, email, senha })
 
         return res.status(201).json({
-            message: `Dentista ${result.nome} cadastrado com sucesso!`,
-            data: result
+            success: true,
+            message: `Dentista ${result.nome} cadastrado com sucesso!`
         })
     },
 
@@ -61,12 +107,12 @@ module.exports = {
         var { id } = req.params
 
         senha = await bcrypt.hash(req.body.senha, saltRounds);
-        
+
         var result = await Dentista.update({ nome, email, senha, id })
 
         res.json({
-            Resultado: "Sucesso",
-            data: result,
+            success: true,
+            message: `Dentista ${result.nome} editado com sucesso`
             /* Modificado: this.changes */
         })
 
@@ -76,7 +122,8 @@ module.exports = {
         await Dentista.delete(req.params.id)
 
         return res.json({
-            "Resultado": "Excluido"
+            success: true,
+            message: "Excluido"
         })
     }
 }

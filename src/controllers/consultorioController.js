@@ -6,8 +6,8 @@ module.exports = {
         var results = await Consultorio.list()
 
         return res.json({
-            "Resultado": "Sucesso",
-            "data": results
+            success: true,
+            data: results
         })
     },
 
@@ -15,8 +15,8 @@ module.exports = {
         var result = await Consultorio.findConsultorio(req.params.id)
 
         return res.json({
-            "Resultado": "Sucesso",
-            "data": result
+            success: true,
+            data: result
         })
     },
 
@@ -68,7 +68,7 @@ module.exports = {
 
         var result = await Consultorio.create({ nome, estado, cidade, bairro, rua, numero, complemento, horaInicio, horaFim })
 
-        return res.status(201).json(`Consultório ${result.nome} cadastrado com sucesso!`)
+        return res.status(201).json({ success: true, message: `Consultório ${result.nome} cadastrado com sucesso!` })
     },
 
     async update(req, res) {
@@ -78,7 +78,7 @@ module.exports = {
         var result = await Consultorio.update({ nome, estado, cidade, bairro, rua, numero, complemento, horaInicio, horaFim, id })
 
         res.json({
-            Resultado: "Sucesso",
+            success: true,
             data: result,
         })
 
@@ -88,7 +88,8 @@ module.exports = {
         await Consultorio.delete(req.params.id)
 
         return res.json({
-            "Resultado": "Consultório excluido"
+            success: true,
+            message: "Consultório excluido"
         })
     }
 }

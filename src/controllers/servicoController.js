@@ -6,8 +6,8 @@ module.exports = {
         var results = await Servico.list()
 
         return res.json({
-            "Resultado": "Sucesso",
-            "data": results
+            success: true,
+            data: results
         })
     },
 
@@ -15,8 +15,8 @@ module.exports = {
         var result = await Servico.findService(req.params.id)
 
         return res.json({
-            "Resultado": "Sucesso",
-            "data": result
+            success: true,
+            data: result
         })
     },
 
@@ -35,14 +35,14 @@ module.exports = {
             errors.push("Dentista é obrigatório");
         }
         if (errors.length) {
-            res.status(400).json({ "Erro": errors.join(",") });
+            res.status(400).json({ success: false, erro: errors.join(",") });
             return;
         }
 
         var result = await Dentista.findDentist(idDentista)
 
         if (!result) {
-            return res.status(400).json({ "Erro": "Dentista inexistente" });
+            return res.status(400).json({ success: false, erro: "Dentista inexistente" });
         }
 
         var result = await Servico.create({ tipoServico, preco, idDentista })
@@ -57,7 +57,7 @@ module.exports = {
         var result = await Servico.update({ tipoServico, preco, idDentista, id })
 
         res.json({
-            Resultado: "Sucesso",
+            success: true,
             data: result,
         })
 
@@ -67,7 +67,8 @@ module.exports = {
         await Servico.delete(req.params.id)
 
         return res.json({
-            "Resultado": "Excluido"
+            success: true,
+            message: "Excluido"
         })
     }
 }

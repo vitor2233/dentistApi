@@ -7,8 +7,8 @@ module.exports = {
         const results = await Marcacao.list()
 
         return res.json({
-            "message": "success",
-            "data": results
+            success: true,
+            data: results
         })
     },
 
@@ -35,20 +35,20 @@ module.exports = {
         var result = await Usuario.findUser(idUsuario)
 
         if (!result) {
-            return res.status(400).json({ "Erro": "Usuário inexistente" });
+            return res.status(400).json({ success: false, erro: "Usuário inexistente" });
         }
 
         result = await Dentista.findDentist(idDentista)
 
         if (!result) {
-            return res.status(400).json({ "Erro": "Dentista inexistente" });
+            return res.status(400).json({ success: false, erro: "Dentista inexistente" });
         }
         else {
             result = await Marcacao.create({ data, idDentista, idUsuario })
 
             return res.json({
-                "message": "successo",
-                "data": result
+                success: true,
+                data: result
             })
         }
     },
@@ -57,8 +57,8 @@ module.exports = {
         var result = await Marcacao.findById(req.params.id)
 
         return res.json({
-            "Resultado": "Sucesso",
-            "data": result
+            success: true,
+            data: result
         })
     },
 
@@ -71,7 +71,7 @@ module.exports = {
         var result = await Marcacao.update({ data, id })
 
         return res.json({
-            Resultado: "Sucesso",
+            success: true,
             data: result
         })
     },
@@ -80,7 +80,8 @@ module.exports = {
         await Marcacao.delete(req.params.id)
 
         return res.json({
-            "Resultado": "Marcação Excluida"
+            success: true,
+            message: "Marcação Excluida"
         })
     }
 }

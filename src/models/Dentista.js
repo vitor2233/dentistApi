@@ -32,6 +32,20 @@ module.exports = {
     })
   },
 
+  async findLogin(email) {
+    var sql = "SELECT * FROM dentista WHERE email = ?";
+    var params = [email]
+
+    return new Promise((resolve, reject) => {
+      db.get(sql, params, (err, row) => {
+        if (err) {
+          throw new Error(err)
+        }
+        resolve(row)
+      })
+    })
+  },
+
   async findDentist(id) {
     var sql = "SELECT * FROM dentista WHERE id = ?"
     var params = [id]

@@ -29,6 +29,20 @@ module.exports = {
     })
   },
 
+  async listByUser(id) {
+    var sql = "select * from marcacao WHERE idUsuario = ?"
+    var params = [id]
+
+    return new Promise((resolve, reject) => {
+      db.all(sql, params, (err, rows) => {
+        if (err) {
+          throw new Error(err)
+        }
+        resolve(rows)
+      });
+    })
+  },
+
   async findById(id) {
     var sql = 'SELECT * FROM marcacao WHERE id = ?'
     var params = [id]

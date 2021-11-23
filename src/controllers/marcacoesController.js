@@ -12,6 +12,15 @@ module.exports = {
         })
     },
 
+    async listByUser(req, res) {
+        const results = await Marcacao.listByUser(req.params.id)
+        
+        return res.json({
+            success: true,
+            data: results
+        })
+    },
+
     async post(req, res) {
         var errors = []
 

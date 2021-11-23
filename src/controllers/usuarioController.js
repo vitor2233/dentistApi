@@ -99,6 +99,7 @@ module.exports = {
     async update(req, res) {
         var { nome, email, senha, isAdm } = req.body
         var { id } = req.params
+        console.log(req.body)
 
         senha = await bcrypt.hash(req.body.senha, saltRounds);
 

@@ -18,8 +18,26 @@ module.exports = {
             data: results
         })
     },
+    
+    async listOnlyMarcacao(req, res) {
+        var results = await Dentista.list()
+
+        return res.json({
+            success: true,
+            data: results
+        })
+    },
 
     async show(req, res) {
+        var result = await Dentista.findDentist(req.params.id)
+
+        return res.json({
+            success: true,
+            data: result
+        })
+    },
+
+    async showOnlyMarcacao(req, res) {
         var result = await Dentista.findDentist(req.params.id)
 
         return res.json({
@@ -98,7 +116,8 @@ module.exports = {
 
         return res.status(201).json({
             success: true,
-            message: `Dentista ${result.nome} cadastrado com sucesso!`
+            message: `Dentista ${result.nome} cadastrado com sucesso!`,
+            data: result
         })
     },
 

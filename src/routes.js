@@ -29,6 +29,7 @@ router.patch("/api/consultorio/:id", verifyIfUserIsAdm, consultorioController.up
 router.delete("/api/consultorio/:id", verifyIfUserIsAdm, consultorioController.delete)
 
 //Serviço
+router.get("/api/servicos/:id", servicoController.listByUser)
 router.get("/api/servico", servicoController.list)
 router.get("/api/servico/:id", servicoController.show)
 router.post("/api/servico", servicoController.post)

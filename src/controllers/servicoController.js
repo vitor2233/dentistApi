@@ -11,6 +11,15 @@ module.exports = {
         })
     },
 
+    async listByUser(req, res) {
+        var results = await Servico.listByUser(req.params.id)
+
+        return res.json({
+            success: true,
+            data: results
+        })
+    },
+
     async show(req, res) {
         var result = await Servico.findService(req.params.id)
 

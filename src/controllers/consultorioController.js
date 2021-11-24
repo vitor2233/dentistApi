@@ -52,9 +52,9 @@ module.exports = {
         if (!horaFim) {
             errors.push("Hora fim é obrigatório");
         }
-        if (!idDentista) {
+        /* if (!idDentista) {
             errors.push("ID de dentista é obrigatório");
-        }
+        } */
         if (errors.length) {
             res.status(400).json({ "Erro": errors.join(",") });
             return;

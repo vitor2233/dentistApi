@@ -37,6 +37,8 @@ router.patch("/api/servico/:id", servicoController.update)
 router.delete("/api/servico/:id", servicoController.delete)
 
 //Dentista Consultorio
+router.get("/api/dentistaConsultorio", verifyIfUserIsAdm, dentistaHasConsultorioController.list)
+router.get("/api/dentistaConsultorio/:id", verifyIfUserIsAdm, dentistaHasConsultorioController.listByUser)
 router.post("/api/dentistaConsultorio", verifyIfUserIsAdm, dentistaHasConsultorioController.post)
 router.patch("/api/dentistaConsultorio/:id", verifyIfUserIsAdm, dentistaHasConsultorioController.update)
 router.delete("/api/dentistaConsultorio/:id", verifyIfUserIsAdm, dentistaHasConsultorioController.delete)
